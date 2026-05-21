@@ -1,0 +1,366 @@
+.app-shell {
+  /* Main page wrapper for both the auth area and the protected map area. */
+  min-height: 100vh;
+  padding: 48px 24px;
+  background:
+    linear-gradient(135deg, rgba(47, 111, 78, 0.1), transparent 36%),
+    #f7f7f2;
+  color: #1e2420;
+}
+
+.auth-layout {
+  /* Two-column desktop layout: product copy on the left, auth/account panel on
+     the right. It collapses to one column in the media query below. */
+  width: min(100%, 1120px);
+  min-height: calc(100vh - 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  align-items: center;
+  gap: 64px;
+  margin: 0 auto;
+}
+
+.auth-copy {
+  /* Keep the headline readable on wide screens instead of stretching text. */
+  max-width: 680px;
+}
+
+.eyebrow {
+  /* Small section label reused above the hero text and map heading. */
+  margin: 0 0 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2f6f4e;
+}
+
+h1 {
+  /* Large app headline. Clamp keeps it from being too small on mobile or too
+     large on wide desktop displays. */
+  margin: 0;
+  font-size: clamp(2.6rem, 6vw, 5.75rem);
+  line-height: 0.95;
+}
+
+h2 {
+  /* Headings can contain long user emails, so allow wrapping inside the panel. */
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.intro {
+  /* Supporting copy under the main headline. */
+  max-width: 580px;
+  margin: 24px 0 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4b554f;
+}
+
+.auth-panel {
+  /* Framed authentication surface. This is a card because it is a contained
+     form/account tool, not a page section. */
+  width: 100%;
+  padding: 24px;
+  border: 1px solid #d9ded2;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 24px 64px rgba(30, 36, 32, 0.12);
+}
+
+.mode-toggle {
+  /* Segmented control that switches between sign-in and sign-up flows. */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  padding: 4px;
+  border-radius: 8px;
+  background: #eef1e9;
+}
+
+.mode-toggle button {
+  /* Segment buttons inherit the app font and use state classes for selection. */
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #4b554f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mode-toggle button.active {
+  /* Active segment is visually raised without changing layout size. */
+  background: #ffffff;
+  color: #1e2420;
+  box-shadow: 0 1px 4px rgba(30, 36, 32, 0.12);
+}
+
+form {
+  /* Stack email, password, and submit controls with predictable spacing. */
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+label {
+  /* Labels wrap each input so clicking the text focuses the control. */
+  display: grid;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #303832;
+}
+
+input {
+  /* Shared input styling for email and password fields. */
+  min-height: 48px;
+  width: 100%;
+  border: 1px solid #cfd6c7;
+  border-radius: 6px;
+  padding: 0 14px;
+  background: #ffffff;
+  color: #1e2420;
+  font: inherit;
+}
+
+input:focus {
+  /* Visible focus ring for keyboard users without relying on browser defaults. */
+  border-color: #2f6f4e;
+  box-shadow: 0 0 0 3px rgba(47, 111, 78, 0.15);
+  outline: 0;
+}
+
+button[type='submit'],
+.account-view button {
+  /* Primary action button used by the auth form and sign-out action. */
+  min-height: 48px;
+  border: 0;
+  border-radius: 6px;
+  background: #2f6f4e;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:disabled {
+  /* Disabled buttons still occupy the same space while async work is running. */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.account-view {
+  /* Signed-in panel content: account label, email, helper text, and sign out. */
+  display: grid;
+  gap: 16px;
+}
+
+.panel-kicker {
+  /* Compact label above the signed-in email. */
+  margin: 0;
+  color: #2f6f4e;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.muted,
+.status {
+  /* Shared text treatment for secondary messages and loading states. */
+  margin: 0;
+  color: #647069;
+  line-height: 1.5;
+}
+
+.status {
+  /* Status messages are visually separated so Supabase errors and confirmations
+     do not blend into the form. */
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background: #f1f4ec;
+  color: #303832;
+}
+
+.map-section {
+  /* Protected map section shown only after authentication succeeds. */
+  width: min(100%, 1120px);
+  margin: 48px auto 0;
+}
+
+.section-heading {
+  /* Heading block above the rendered store grid. */
+  margin-bottom: 18px;
+}
+
+.section-heading h2 {
+  /* Map heading should be prominent but smaller than the main app headline. */
+  font-size: 2rem;
+}
+
+.store-map {
+  /* The column count is injected inline from storeMap.width because it comes
+     from Supabase store dimensions. */
+  display: grid;
+  gap: 4px;
+  width: 100%;
+}
+
+.map-cell {
+  /* Every map tile is a square. The row count is determined by the number of
+     rows in storeMap.cells; CSS only has to keep each cell square. */
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d8ddd1;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+}
+
+.walkspace {
+  /* Empty cells represent walkable space. The subtle pattern differentiates
+     walkspace from section cells without adding text. */
+  background:
+    linear-gradient(45deg, rgba(125, 135, 126, 0.16) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(125, 135, 126, 0.16) 25%, transparent 25%),
+    #eef1e9;
+  background-size: 14px 14px;
+}
+
+.has-section {
+  /* Non-product sections start as white tiles; product sections override this. */
+  background: #ffffff;
+}
+
+.product-section {
+  /* Product sections get the yellow tint requested for areas containing items. */
+  border-color: #e3be42;
+  background: #fff2b8;
+}
+
+.section-emoji {
+  /* Emoji size scales with viewport but stays bounded so dense maps remain
+     readable. */
+  display: block;
+  font-size: clamp(0.9rem, 2.4vw, 1.5rem);
+  line-height: 1;
+}
+
+.section-name {
+  /* Section names may be long, so allow wrapping inside the fixed square cell. */
+  display: block;
+  margin-top: 6px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: #303832;
+  font-size: clamp(0.48rem, 1vw, 0.72rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.product-lookup {
+  /* Temporary ProductService test surface below the map. It lets us verify
+     product fetch + Dexie caching without building the full search screen yet. */
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #d8ddd1;
+}
+
+.product-lookup-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  align-items: end;
+  gap: 14px;
+  max-width: 620px;
+}
+
+.product-results {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+  margin-top: 18px;
+}
+
+.product-result {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid #d9ded2;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.product-thumbnail {
+  width: 88px;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #eef1e9;
+}
+
+.product-thumbnail-placeholder {
+  display: grid;
+  place-items: center;
+  color: #4b554f;
+  font-size: 1.8rem;
+}
+
+.product-details {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.product-details div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.product-details dt {
+  color: #647069;
+  font-weight: 800;
+}
+
+.product-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #303832;
+}
+
+@media (max-width: 820px) {
+  /* Mobile layout keeps auth and map usable by stacking panels and tightening
+     spacing. */
+  .app-shell {
+    padding: 32px 18px;
+  }
+
+  .auth-layout {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .map-cell {
+    padding: 3px;
+  }
+
+  .product-lookup-form,
+  .product-result,
+  .product-details div {
+    grid-template-columns: 1fr;
+  }
+
+  .product-thumbnail {
+    width: 100%;
+    max-width: 140px;
+  }
+}
