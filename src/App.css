@@ -1,366 +1,1111 @@
-.app-shell {
-  /* Main page wrapper for both the auth area and the protected map area. */
-  min-height: 100vh;
-  padding: 48px 24px;
-  background:
-    linear-gradient(135deg, rgba(47, 111, 78, 0.1), transparent 36%),
-    #f7f7f2;
-  color: #1e2420;
-}
-
-.auth-layout {
-  /* Two-column desktop layout: product copy on the left, auth/account panel on
-     the right. It collapses to one column in the media query below. */
-  width: min(100%, 1120px);
-  min-height: calc(100vh - 96px);
+.promotion-strip {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 420px;
+  grid-auto-flow: column;
+  grid-auto-columns: 238px;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 2px 2px 8px;
+  scrollbar-width: none;
+}
+
+.search-entry {
+  width: 100%;
+  height: 56px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
   align-items: center;
-  gap: 64px;
-  margin: 0 auto;
+  gap: 12px;
+  margin: 8px 0 24px;
+  border: 1px solid #e0ddd3;
+  border-radius: 18px;
+  padding: 0 18px;
+  background: var(--color-surface-raised);
+  color: var(--color-subtle);
+  font: inherit;
+  font-size: 0.98rem;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(32, 45, 41, 0.06);
 }
 
-.auth-copy {
-  /* Keep the headline readable on wide screens instead of stretching text. */
-  max-width: 680px;
+.promotion-strip::-webkit-scrollbar {
+  display: none;
 }
 
-.eyebrow {
-  /* Small section label reused above the hero text and map heading. */
-  margin: 0 0 12px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #2f6f4e;
+.promotion-card {
+  min-height: 190px;
+  display: grid;
+  grid-template-rows: 92px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-raised);
+  box-shadow: 0 10px 24px rgba(32, 45, 41, 0.07);
 }
 
-h1 {
-  /* Large app headline. Clamp keeps it from being too small on mobile or too
-     large on wide desktop displays. */
+.promo-art {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 209, 102, 0.45), rgba(75, 132, 103, 0.22)),
+    #eef4eb;
+}
+
+.promo-art img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.promo-symbol {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: var(--color-surface-raised);
+  color: #285641;
+  font-size: 1.8rem;
+  font-weight: 900;
+  box-shadow: 0 10px 18px rgba(32, 45, 41, 0.1);
+}
+
+.promo-copy {
+  min-width: 0;
+  padding: 13px 14px 16px;
+}
+
+.promo-copy h3 {
+  margin: 5px 0 6px;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 1.04rem;
+  font-weight: 850;
+  line-height: 1.15;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.promo-copy p {
   margin: 0;
-  font-size: clamp(2.6rem, 6vw, 5.75rem);
-  line-height: 0.95;
+  overflow: hidden;
+  color: #68716c;
+  font-size: 0.88rem;
+  line-height: 1.28;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-h2 {
-  /* Headings can contain long user emails, so allow wrapping inside the panel. */
+.list-panel {
+  display: grid;
+  overflow: hidden;
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-soft);
+}
+
+.all-lists-group {
+  display: grid;
+  gap: 12px;
+}
+
+.list-row,
+.all-list-card,
+.add-list-button {
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 0;
+  border-bottom: 1px solid var(--color-divider);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+}
+
+.list-row:last-child,
+.all-list-card:last-child,
+.add-list-button:last-child {
+  border-bottom: 0;
+}
+
+.list-row h3,
+.all-list-card h3,
+.add-list-button > span:not(.add-list-icon) {
+  margin: 0 0 4px;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 850;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-row p,
+.all-list-card p {
   margin: 0;
-  overflow-wrap: anywhere;
-  font-size: 1.6rem;
+  overflow: hidden;
+  color: #727b75;
+  font-size: 0.86rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-list-row h3,
+.empty-list-row p {
+  color: var(--color-subtle);
+}
+
+.add-list-button {
+  color: var(--color-primary);
+  font-weight: 850;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.add-list-button:hover {
+  background: #f1f7f2;
+}
+
+.add-list-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-soft);
+}
+
+.add-list-button::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  justify-self: center;
+  border-top: 2px solid #7b847e;
+  border-right: 2px solid #7b847e;
+  transform: rotate(45deg);
+}
+
+.add-list-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-control);
+  background: var(--color-primary);
+  color: var(--color-surface-raised);
+  font-size: 1.5rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.map-block {
+  padding-bottom: 6px;
+}
+
+.map-preview {
+  height: 220px;
+  overflow: hidden;
+  border: 1px solid #ddd8cc;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.68), rgba(255, 253, 248, 0.94)),
+    #ede9df;
+  box-shadow: inset 0 0 0 10px rgba(255, 253, 248, 0.48);
+}
+
+.mini-map {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 3px;
+  padding: 16px;
+}
+
+.mini-cell {
+  min-width: 0;
+  min-height: 0;
+  border-radius: 5px;
+  background: #faf8f1;
+}
+
+.section-cell {
+  border: 1px solid rgba(52, 88, 77, 0.18);
+  background: #d7e8dc;
+}
+
+.product-cell {
+  background: var(--color-secondary);
+}
+
+.map-empty {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  color: #7b847e;
+}
+
+.map-empty span {
+  width: 44px;
+  height: 44px;
+  border: 3px solid #a3aba5;
+  border-radius: 14px;
+}
+
+.map-empty p {
+  margin: 0;
+  font-weight: 800;
+}
+
+.all-lists-content {
+  padding-top: 18px;
+}
+
+.all-lists-section {
+  margin-top: 28px;
+}
+
+.all-lists-section:first-child {
+  margin-top: 0;
+}
+
+.all-lists-title {
+  margin: 0 0 14px 6px;
+  color: var(--color-text);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.all-list-card {
+  position: relative;
+  min-height: 72px;
+  grid-template-columns: minmax(0, 1fr) 36px;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-soft);
+}
+
+.all-list-card-copy {
+  min-width: 0;
+}
+
+.all-list-card .more-button {
+  justify-self: end;
+  align-self: center;
+}
+
+.list-context-menu {
+  position: absolute;
+  top: 52px;
+  right: 12px;
+  z-index: 4;
+  min-width: 150px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface-raised);
+  box-shadow: 0 18px 36px rgba(25, 38, 35, 0.18);
+}
+
+.list-context-menu button {
+  width: 100%;
+  min-height: 42px;
+  display: block;
+  border: 0;
+  border-bottom: 1px solid var(--color-divider);
+  padding: 0 14px;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.list-context-menu button:last-child {
+  border-bottom: 0;
+}
+
+.list-context-menu button:hover {
+  background: #f4f0e7;
+}
+
+.list-context-menu .danger-menu-item {
+  color: #a6372f;
+}
+
+
+.shared-empty {
+  min-height: 84px;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  color: var(--color-subtle);
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.create-list-form {
+  display: grid;
+  gap: 18px;
+  padding-top: 18px;
+}
+
+.auth-screen-content {
+  min-height: 100%;
+  display: grid;
+  align-content: center;
+  gap: 24px;
+  padding: 28px 22px;
+}
+
+.store-selection-content {
+  min-height: 100%;
+  display: grid;
+  align-content: center;
+  gap: 24px;
+  padding: 28px 22px;
+}
+
+.auth-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.auth-heading h1 {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.02;
+}
+
+.auth-heading p:last-child {
+  max-width: 330px;
+  margin: 0;
+  color: #68716c;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.store-list {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-soft);
+}
+
+.store-option {
+  min-height: 78px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  border-bottom: 1px solid var(--color-divider);
+  padding: 12px;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.store-option:last-child {
+  border-bottom: 0;
+}
+
+.store-option:hover {
+  background: #f1f7f2;
+}
+
+.store-option-icon {
+  width: 46px;
+  height: 46px;
+  display: block;
+  border-radius: var(--radius-control);
+  background:
+    linear-gradient(90deg, transparent 45%, rgba(36, 82, 62, 0.24) 46% 54%, transparent 55%),
+    linear-gradient(0deg, transparent 45%, rgba(36, 82, 62, 0.24) 46% 54%, transparent 55%),
+    var(--color-primary-soft);
+  position: relative;
+}
+
+.store-option-icon::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+}
+
+.store-option strong,
+.store-option small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.store-option strong {
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 900;
   line-height: 1.2;
 }
 
-.intro {
-  /* Supporting copy under the main headline. */
-  max-width: 580px;
-  margin: 24px 0 0;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #4b554f;
+.store-option small {
+  margin-top: 3px;
+  color: #727b75;
+  font-size: 0.84rem;
+  font-weight: 700;
 }
 
-.auth-panel {
-  /* Framed authentication surface. This is a card because it is a contained
-     form/account tool, not a page section. */
-  width: 100%;
-  padding: 24px;
-  border: 1px solid #d9ded2;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 24px 64px rgba(30, 36, 32, 0.12);
-}
-
-.mode-toggle {
-  /* Segmented control that switches between sign-in and sign-up flows. */
+.auth-mode-toggle {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 4px;
   padding: 4px;
-  border-radius: 8px;
-  background: #eef1e9;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: #ebe7dc;
 }
 
-.mode-toggle button {
-  /* Segment buttons inherit the app font and use state classes for selection. */
-  min-height: 42px;
+.auth-mode-toggle button {
+  min-height: 44px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 14px;
   background: transparent;
-  color: #4b554f;
+  color: #68716c;
   font: inherit;
-  font-weight: 700;
+  font-weight: 850;
   cursor: pointer;
 }
 
-.mode-toggle button.active {
-  /* Active segment is visually raised without changing layout size. */
-  background: #ffffff;
-  color: #1e2420;
-  box-shadow: 0 1px 4px rgba(30, 36, 32, 0.12);
+.auth-mode-toggle button.active {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  box-shadow: var(--shadow-soft);
 }
 
-form {
-  /* Stack email, password, and submit controls with predictable spacing. */
+.auth-form {
   display: grid;
   gap: 18px;
-  margin-top: 24px;
 }
 
-label {
-  /* Labels wrap each input so clicking the text focuses the control. */
+.create-list-form label,
+.auth-form label {
   display: grid;
   gap: 8px;
+  color: var(--color-text);
   font-size: 0.92rem;
-  font-weight: 700;
-  color: #303832;
+  font-weight: 850;
 }
 
-input {
-  /* Shared input styling for email and password fields. */
-  min-height: 48px;
+.create-list-form input,
+.auth-form input {
   width: 100%;
-  border: 1px solid #cfd6c7;
-  border-radius: 6px;
-  padding: 0 14px;
-  background: #ffffff;
-  color: #1e2420;
+  min-height: 56px;
+  border: 1px solid #e0ddd3;
+  border-radius: 18px;
+  padding: 0 16px;
+  background: var(--color-surface-raised);
+  color: var(--color-text);
   font: inherit;
+  font-size: 1rem;
+  box-shadow: 0 8px 22px rgba(32, 45, 41, 0.06);
 }
 
-input:focus {
-  /* Visible focus ring for keyboard users without relying on browser defaults. */
-  border-color: #2f6f4e;
-  box-shadow: 0 0 0 3px rgba(47, 111, 78, 0.15);
+.create-list-form input::placeholder,
+.auth-form input::placeholder {
+  color: var(--color-subtle);
+}
+
+.create-list-form input:focus,
+.auth-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow:
+    0 8px 22px rgba(32, 45, 41, 0.06),
+    0 0 0 3px rgba(36, 82, 62, 0.14);
   outline: 0;
 }
 
-button[type='submit'],
-.account-view button {
-  /* Primary action button used by the auth form and sign-out action. */
-  min-height: 48px;
+.form-error {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #eadcc5;
+  border-radius: 14px;
+  background: #fff7e8;
+  color: #76512d;
+  font-size: 0.88rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 52px;
   border: 0;
-  border-radius: 6px;
-  background: #2f6f4e;
-  color: #ffffff;
+  border-radius: 18px;
   font: inherit;
-  font-weight: 800;
+  font-size: 0.98rem;
+  font-weight: 900;
   cursor: pointer;
 }
 
-button:disabled {
-  /* Disabled buttons still occupy the same space while async work is running. */
+.primary-action {
+  background: var(--color-primary);
+  color: var(--color-surface-raised);
+}
+
+.secondary-action {
+  background: #e9eee9;
+  color: #285641;
+}
+
+.primary-action:disabled {
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.72;
 }
 
-.account-view {
-  /* Signed-in panel content: account label, email, helper text, and sign out. */
-  display: grid;
-  gap: 16px;
-}
-
-.panel-kicker {
-  /* Compact label above the signed-in email. */
-  margin: 0;
-  color: #2f6f4e;
-  font-size: 0.82rem;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.muted,
-.status {
-  /* Shared text treatment for secondary messages and loading states. */
-  margin: 0;
-  color: #647069;
-  line-height: 1.5;
-}
-
-.status {
-  /* Status messages are visually separated so Supabase errors and confirmations
-     do not blend into the form. */
-  margin-top: 18px;
-  padding: 12px 14px;
-  border-radius: 6px;
-  background: #f1f4ec;
-  color: #303832;
-}
-
-.map-section {
-  /* Protected map section shown only after authentication succeeds. */
-  width: min(100%, 1120px);
-  margin: 48px auto 0;
-}
-
-.section-heading {
-  /* Heading block above the rendered store grid. */
-  margin-bottom: 18px;
-}
-
-.section-heading h2 {
-  /* Map heading should be prominent but smaller than the main app headline. */
-  font-size: 2rem;
-}
-
-.store-map {
-  /* The column count is injected inline from storeMap.width because it comes
-     from Supabase store dimensions. */
-  display: grid;
-  gap: 4px;
-  width: 100%;
-}
-
-.map-cell {
-  /* Every map tile is a square. The row count is determined by the number of
-     rows in storeMap.cells; CSS only has to keep each cell square. */
-  aspect-ratio: 1;
+.dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
   display: grid;
   place-items: center;
-  border: 1px solid #d8ddd1;
-  border-radius: 6px;
-  padding: 8px;
+  padding: 22px;
+  background: rgba(20, 32, 28, 0.34);
+  backdrop-filter: blur(8px);
+}
+
+.search-top-bar {
+  height: 96px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 22px 16px;
+  background: rgba(246, 244, 237, 0.92);
+  backdrop-filter: blur(16px);
+}
+
+.search-top-bar h1 {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: 1.8rem;
+  font-weight: 850;
+  line-height: 1;
   text-align: center;
 }
 
-.walkspace {
-  /* Empty cells represent walkable space. The subtle pattern differentiates
-     walkspace from section cells without adding text. */
-  background:
-    linear-gradient(45deg, rgba(125, 135, 126, 0.16) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(125, 135, 126, 0.16) 25%, transparent 25%),
-    #eef1e9;
-  background-size: 14px 14px;
+.back-button {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
 }
 
-.has-section {
-  /* Non-product sections start as white tiles; product sections override this. */
-  background: #ffffff;
-}
-
-.product-section {
-  /* Product sections get the yellow tint requested for areas containing items. */
-  border-color: #e3be42;
-  background: #fff2b8;
-}
-
-.section-emoji {
-  /* Emoji size scales with viewport but stays bounded so dense maps remain
-     readable. */
+.back-button span {
+  width: 19px;
+  height: 19px;
   display: block;
-  font-size: clamp(0.9rem, 2.4vw, 1.5rem);
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.search-screen-content {
+  padding-top: 18px;
+}
+
+.search-field {
+  height: 56px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #e0ddd3;
+  border-radius: 18px;
+  padding: 0 16px;
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 850;
+  box-shadow: 0 8px 22px rgba(32, 45, 41, 0.06);
+}
+
+.search-field button {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid #9aa29c;
+  border-radius: 50%;
+  background: transparent;
+  color: #68716c;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 900;
   line-height: 1;
 }
 
-.section-name {
-  /* Section names may be long, so allow wrapping inside the fixed square cell. */
+.search-field button span {
+  position: relative;
+  width: 14px;
+  height: 14px;
   display: block;
-  margin-top: 6px;
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  color: #303832;
-  font-size: clamp(0.48rem, 1vw, 0.72rem);
-  font-weight: 800;
+}
+
+.search-field button span::before,
+.search-field button span::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 1px;
+  width: 12px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.search-field button span::before {
+  transform: rotate(45deg);
+}
+
+.search-field button span::after {
+  transform: rotate(-45deg);
+}
+
+.search-controls {
+  height: 44px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  overflow: hidden;
+  margin-top: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #ebe7dc;
+  padding: 4px;
+}
+
+.search-controls button {
+  border: 0;
+  border-radius: 12px;
+  background: var(--color-surface-raised);
+  color: #285641;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 850;
+  box-shadow: var(--shadow-soft);
+}
+
+.search-results-title {
+  margin: 22px 4px 14px;
+  color: var(--color-text);
+  font-size: 1.08rem;
+  font-weight: 900;
   line-height: 1.2;
 }
 
-.product-lookup {
-  /* Temporary ProductService test surface below the map. It lets us verify
-     product fetch + Dexie caching without building the full search screen yet. */
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid #d8ddd1;
+.search-results-list {
+  display: grid;
+  gap: 12px;
 }
 
-.product-lookup-form {
+.search-result-row {
+  min-height: 82px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px;
-  align-items: end;
-  gap: 14px;
-  max-width: 620px;
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  padding: 0;
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
 }
 
-.product-results {
+.search-result-main {
   display: grid;
-  gap: 14px;
-  max-width: 720px;
-  margin-top: 18px;
-}
-
-.product-result {
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
+  grid-template-columns: 66px minmax(0, 1fr) 34px 34px;
   align-items: center;
-  gap: 18px;
-  padding: 18px;
-  border: 1px solid #d9ded2;
-  border-radius: 8px;
-  background: #ffffff;
+  gap: 10px;
+  padding: 10px;
 }
 
-.product-thumbnail {
-  width: 88px;
-  aspect-ratio: 1;
-  border-radius: 6px;
-  object-fit: cover;
-  background: #eef1e9;
-}
-
-.product-thumbnail-placeholder {
+.result-image {
+  width: 62px;
+  height: 62px;
   display: grid;
   place-items: center;
-  color: #4b554f;
-  font-size: 1.8rem;
+  border: 1px solid #d8ddd8;
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(255, 209, 102, 0.32), rgba(75, 132, 103, 0.16)),
+    #eef4eb;
 }
 
-.product-details {
-  display: grid;
-  gap: 12px;
+.result-image span {
+  position: relative;
+  width: 22px;
+  height: 20px;
+  display: block;
+  border: 2px solid #767d83;
+  border-radius: 5px;
+}
+
+.result-image span::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #767d83;
+}
+
+.result-image span::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  height: 8px;
+  background:
+    linear-gradient(135deg, transparent 0 34%, #767d83 35% 43%, transparent 44%),
+    linear-gradient(45deg, transparent 0 32%, #767d83 33% 43%, transparent 44%);
+}
+
+.result-copy {
+  min-width: 0;
+}
+
+.result-copy h3 {
+  margin: 0 0 8px;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 0.96rem;
+  font-weight: 900;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-copy p {
+  display: flex;
+  gap: 26px;
   margin: 0;
+  color: #707973;
+  font-size: 1rem;
+  line-height: 1.15;
 }
 
-.product-details div {
+.result-copy strong {
+  color: #111;
+  font-weight: 900;
+}
+
+.result-line {
+  display: block;
+  height: 7px;
+  border-radius: 999px;
+  background: #26332e;
+}
+
+.result-line.long {
+  width: 86%;
+  margin-bottom: 16px;
+}
+
+.result-line.short {
+  width: 24%;
+  box-shadow: 72px 0 0 #b7bdb8;
+}
+
+.result-add-button,
+.result-expand-button {
+  width: 30px;
+  height: 30px;
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: #e9eee9;
+  color: var(--color-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.result-add-button {
+  position: relative;
+}
+
+.result-add-button span {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.result-add-button span::before,
+.result-add-button span::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.result-add-button span::before {
+  top: 8px;
+  left: 2px;
+  width: 14px;
+  height: 3px;
+}
+
+.result-add-button span::after {
+  top: 2px;
+  left: 8px;
+  width: 3px;
+  height: 14px;
+}
+
+.result-expand-button > span {
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -2px);
+}
+
+.search-result-row.expanded .result-expand-button > span {
+  transform: rotate(225deg) translate(-1px, -2px);
+}
+
+.search-result-menu {
+  display: grid;
+  gap: 16px;
+  padding: 0 10px 14px;
+}
+
+.search-result-menu p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.search-result-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.search-result-actions button {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 850;
+  line-height: 1.15;
+  cursor: pointer;
+}
+
+.search-action-icon {
+  width: 34px;
+  height: 34px;
+  display: block;
+  border: 0;
+  border-radius: 10px;
+  background: #e9eee9;
+  position: relative;
+}
+
+.details-action-icon::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 10px;
+  width: 14px;
+  height: 4px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow:
+    0 7px 0 currentColor,
+    0 14px 0 currentColor;
+}
+
+.details-action-icon::after {
+  content: '';
+  position: absolute;
+  right: 7px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.add-action-icon::before,
+.add-action-icon::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.add-action-icon::before {
+  top: 15px;
+  left: 8px;
+  width: 18px;
+  height: 3px;
+}
+
+.add-action-icon::after {
+  top: 8px;
+  left: 15px;
+  width: 3px;
+  height: 18px;
+}
+
+.navigate-action-icon {
+  border-radius: 50% !important;
+  display: grid;
+  place-items: center;
+}
+
+.navigate-action-icon svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  fill: currentColor;
+}
+
+.navigate-action-icon circle {
+  fill: #e9eee9;
+}
+
+.more-action-icon::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow:
+    7px 0 0 currentColor,
+    14px 0 0 currentColor;
+}
+
+.dialog-panel {
+  width: min(100%, 340px);
+  display: grid;
+  gap: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: 20px;
+  background: var(--color-surface-raised);
+  box-shadow: 0 24px 54px rgba(25, 38, 35, 0.24);
+}
+
+.dialog-panel h2 {
+  margin: 4px 0 0;
+  color: var(--color-text);
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.12;
+}
+
+.dialog-panel label {
+  display: grid;
+  gap: 8px;
+  color: var(--color-text);
+  font-size: 0.92rem;
+  font-weight: 850;
+}
+
+.dialog-panel input {
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid #e0ddd3;
+  border-radius: 16px;
+  padding: 0 14px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.dialog-panel input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(36, 82, 62, 0.14);
+  outline: 0;
+}
+
+.dialog-copy {
+  margin: 0;
+  color: #68716c;
+  font-size: 0.94rem;
+  line-height: 1.42;
+}
+
+.dialog-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.product-details dt {
-  color: #647069;
-  font-weight: 800;
+.danger-action {
+  min-height: 52px;
+  border: 0;
+  border-radius: 18px;
+  background: #a6372f;
+  color: var(--color-surface-raised);
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 900;
+  cursor: pointer;
 }
 
-.product-details dd {
-  margin: 0;
-  overflow-wrap: anywhere;
-  color: #303832;
-}
-
-@media (max-width: 820px) {
-  /* Mobile layout keeps auth and map usable by stacking panels and tightening
-     spacing. */
-  .app-shell {
-    padding: 32px 18px;
-  }
-
-  .auth-layout {
-    min-height: auto;
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .map-cell {
-    padding: 3px;
-  }
-
-  .product-lookup-form,
-  .product-result,
-  .product-details div {
-    grid-template-columns: 1fr;
-  }
-
-  .product-thumbnail {
-    width: 100%;
-    max-width: 140px;
+@media (max-width: 380px) {
+  .promotion-strip {
+    grid-auto-columns: 218px;
   }
 }

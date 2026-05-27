@@ -37,3 +37,48 @@ localDb.version(4).stores({
   storeMaps: '&storeId',
   products: '&id, name, category',
 })
+
+// Version 5 adds shopping list caching. Lists and items are stored separately
+// because one list can contain many items and items can be updated individually.
+localDb.version(5).stores({
+  stores: '&id, name, width, length',
+  sections: '&id, storeId, name, x, y, sectionType, hasProducts',
+  storeMaps: '&storeId',
+  products: '&id, name, category',
+  shoppingLists: '&id, userId, updatedAt, finished',
+  shoppingListItems: '&id, shoppingListId, productId, isCollected',
+})
+
+// Version 6 adds `quantityUnit` to shopping list items, mirroring Supabase's
+// `quantity_unit` column for count-vs-mass style item quantities.
+localDb.version(6).stores({
+  stores: '&id, name, width, length',
+  sections: '&id, storeId, name, x, y, sectionType, hasProducts',
+  storeMaps: '&storeId',
+  products: '&id, name, category',
+  shoppingLists: '&id, userId, updatedAt, finished',
+  shoppingListItems: '&id, shoppingListId, productId, quantityUnit, isCollected',
+})
+
+// Version 7 moves `quantityUnit` to products. Quantity unit describes how a
+// product is measured, while shopping list items only store the chosen quantity.
+localDb.version(7).stores({
+  stores: '&id, name, width, length',
+  sections: '&id, storeId, name, x, y, sectionType, hasProducts',
+  storeMaps: '&storeId',
+  products: '&id, name, category, quantityUnit',
+  shoppingLists: '&id, userId, updatedAt, finished',
+  shoppingListItems: '&id, shoppingListId, productId, isCollected',
+})
+
+// Version 8 adds promotion caching for the Promotions screen. Promotions are
+// indexed by store and product because both views are expected in the app.
+localDb.version(8).stores({
+  stores: '&id, name, width, length',
+  sections: '&id, storeId, name, x, y, sectionType, hasProducts',
+  storeMaps: '&storeId',
+  products: '&id, name, category, quantityUnit',
+  shoppingLists: '&id, userId, updatedAt, finished',
+  shoppingListItems: '&id, shoppingListId, productId, isCollected',
+  promotions: '&id, storeId, productId, validUntil',
+})

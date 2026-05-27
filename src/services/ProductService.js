@@ -24,6 +24,7 @@ function normalizeProduct(product) {
     description: product.description ?? '',
     thumbnail: product.thumbnail ?? '',
     picture: product.picture ?? '',
+    quantityUnit: product.quantityUnit ?? product.quantity_unit ?? 'count',
     ...product,
   }
 }
@@ -38,12 +39,13 @@ function normalizeProductPreview(product, priceByProductId = new Map()) {
     name: product.name ?? '',
     thumbnail: product.thumbnail ?? '',
     price: priceByProductId.get(id) ?? null,
+    quantityUnit: product.quantityUnit ?? product.quantity_unit ?? 'count',
   }
 }
 
-async function getPriceByProductId(productIds, storeId) {
+async function getStoreProductRows(productIds, storeId) {
   if (productIds.length === 0) {
-    return new Map()
+    return []
   }
 
   let query = supabase.from(STORE_PRODUCTS_TABLE).select('product_id, price').in('product_id', productIds)
@@ -55,10 +57,31 @@ async function getPriceByProductId(productIds, storeId) {
   const { data, error } = await query
 
   if (error) {
-    return new Map()
+    return []
   }
 
-  return new Map((data ?? []).map((storeProduct) => [storeProduct.product_id, storeProduct.price ?? null]))
+  return data ?? []
+}
+
+async function getStoreProductRowsForStore(storeId) {
+  if (!storeId) {
+    return []
+  }
+
+  const { data, error } = await supabase
+    .from(STORE_PRODUCTS_TABLE)
+    .select('product_id, price')
+    .eq('store_id', storeId)
+
+  if (error) {
+    return []
+  }
+
+  return data ?? []
+}
+
+function getPriceByProductId(storeProductRows) {
+  return new Map(storeProductRows.map((storeProduct) => [storeProduct.product_id, storeProduct.price ?? null]))
 }
 
 async function cacheProductPreviews(previews) {
@@ -96,15 +119,19 @@ function normalizeProductLocation(storeProduct, section) {
   }
 }
 
-async function getProductLocation(productId) {
-  // Use the first matching StoreProduct row for now. Once the app has a store
-  // selector, this can be filtered by the selected store id.
-  const { data: storeProduct, error: storeProductError } = await supabase
+async function getProductLocation(productId, storeId) {
+  // Product location should be scoped to the chosen store when one is supplied,
+  // because the same product can be placed differently in different stores.
+  let query = supabase
     .from(STORE_PRODUCTS_TABLE)
     .select('*')
     .eq('product_id', productId)
-    .limit(1)
-    .maybeSingle()
+
+  if (storeId) {
+    query = query.eq('store_id', storeId)
+  }
+
+  const { data: storeProduct, error: storeProductError } = await query.limit(1).maybeSingle()
 
   if (storeProductError || !storeProduct) {
     return null
@@ -155,7 +182,7 @@ export const ProductService = {
     return data ?? []
   },
 
-  async getProductById(id, { select = '*' } = {}) {
+  async getProductById(id, { select = '*', storeId } = {}) {
     // Fail early for caller mistakes instead of issuing an ambiguous database
     // query that could return the wrong thing or a less helpful Supabase error.
     if (!id) {
@@ -176,7 +203,7 @@ export const ProductService = {
 
     const product = {
       ...normalizeProduct(data),
-      location: await getProductLocation(id),
+      location: await getProductLocation(id, storeId),
     }
     await localDb.products.put(product)
 
@@ -189,9 +216,36 @@ export const ProductService = {
       return []
     }
 
+    if (storeId) {
+      // Store-scoped search starts from StoreProduct so results include only
+      // products offered by the chosen store.
+      const storeProductRows = await getStoreProductRowsForStore(storeId)
+      const storeProductIds = storeProductRows.map((storeProduct) => storeProduct.product_id).filter(Boolean)
+
+      if (storeProductIds.length === 0) {
+        return []
+      }
+
+      const { data, error } = await supabase
+        .from(PRODUCTS_TABLE)
+        .select('product_id, name, thumbnail, quantity_unit')
+        .in('product_id', storeProductIds)
+        .ilike('name', `%${searchTerm.trim()}%`)
+        .limit(limit)
+
+      raiseSupabaseError(error)
+
+      const priceByProductId = getPriceByProductId(storeProductRows)
+      const previews = (data ?? []).map((product) => normalizeProductPreview(product, priceByProductId))
+
+      await cacheProductPreviews(previews)
+
+      return previews
+    }
+
     const { data, error } = await supabase
       .from(PRODUCTS_TABLE)
-      .select('product_id, name, thumbnail')
+      .select('product_id, name, thumbnail, quantity_unit')
       .ilike('name', `%${searchTerm.trim()}%`)
       .limit(limit)
 
@@ -199,7 +253,7 @@ export const ProductService = {
 
     const products = data ?? []
     const productIds = products.map((product) => product.product_id).filter(Boolean)
-    const priceByProductId = await getPriceByProductId(productIds, storeId)
+    const priceByProductId = getPriceByProductId(await getStoreProductRows(productIds, storeId))
     const previews = products.map((product) => normalizeProductPreview(product, priceByProductId))
 
     await cacheProductPreviews(previews)
